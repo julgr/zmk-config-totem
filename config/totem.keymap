@@ -20,8 +20,8 @@
 #define NAV  1
 #define SYM  2
 #define ADJ  3
-#define ALT1 4
-#define ALT2 5
+#define WASD 4
+#define QWERTY 5
 
 &mt {
   quick-tap-ms = <100>;
@@ -38,7 +38,7 @@
                 key-positions = <0 1>;
                 bindings = <&kp ESC>;
             };
-            combo_tvp {
+            combo_wasd {
                 timeout-ms = <100>;
                 key-positions = <11 12 13>;
                 bindings = <&tog WASD>;
@@ -85,7 +85,7 @@
         compatible = "zmk,behavior-mod-morph";
         #binding-cells = <0>;
         bindings = <&kp LPAR>, <&kp LT>;
-        mods = <(MOD_LGUI|MOD_LSFT|MOD_RGUI|MOD_RSFT)>;
+        mods = <(MOD_LSFT|MOD_RSFT)>;
       };
 
       rpargt: rparen_gt{
