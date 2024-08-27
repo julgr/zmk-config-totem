@@ -56,7 +56,7 @@
 
         combo_qwerty {
             timeout-ms = <100>;
-            key-positions = <36 37 38 35>;
+            key-positions = <36 37 35>;
             bindings = <&tog QWERTY>;
             require-prior-idle-ms = <500>;
         };
