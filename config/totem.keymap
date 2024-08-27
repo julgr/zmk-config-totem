@@ -27,7 +27,8 @@
   quick-tap-ms = <100>;
   global-quick-tap;
   flavor = "balanced";
-  tapping-term-ms = <170>;
+  tapping-term-ms = <200>;
+  require-prior-idle-ms = <200>;
 };
 
 / {
@@ -40,8 +41,21 @@
             };
             combo_wasd {
                 timeout-ms = <100>;
-                key-positions = <11 12 13>;
+                key-positions = <23 24 25>;
                 bindings = <&tog WASD>;
+                require-prior-idle-ms = <500>;
+            };
+            combo_base {
+                timeout-ms = <100>;
+                key-positions = <33 34 35>;
+                bindings = <&tog BASE>;
+                require-prior-idle-ms = <500>;
+            };
+            combo_qwerty {
+                timeout-ms = <100>;
+                key-positions = <36 37 38>;
+                bindings = <&tog QWERTY>;
+                require-prior-idle-ms = <500>;
             };
     };
 
@@ -188,7 +202,7 @@ label= "ADJ"                               ;
 //             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
 //             ┃  BT SEL 0 ┃  BT SEL 1 ┃  BT SEL 2 ┃  BT SEL 3 ┃  BT SEL 4 ┃   ┃    F22    ┃    F4     ┃    F5     ┃    F6     ┃    F11    ┃
 // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
-// ┃  BOOTLOAD ┃   RESET   ┃           ┃           ┃           ┃           ┃   ┃    F21    ┃    F1     ┃    F2     ┃    F3     ┃    F10    ┃    F24    ┃
+// ┃  BOOTLOAD ┃   RESET   ┃           ┃    WASD   ┃  QWERTY   ┃   BASE    ┃   ┃    F21    ┃    F1     ┃    F2     ┃    F3     ┃    F10    ┃   RESET   ┃
 // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 //                                     ┃           ┃           ┃           ┃   ┃           ┃           ┃           ┃
 //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
@@ -197,7 +211,7 @@ label= "ADJ"                               ;
 
                 &bt BT_PRV  &bt BT_NXT  &out OUT_TOG &trans     &bt BT_CLR      &kp F23     &kp F7      &kp F8      &kp F9      &kp F12
               &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4  &kp F22     &kp F4      &kp F5      &kp F6      &kp F11  
-    &bootloader  &sys_reset  &trans      &trans      &trans     &trans          &kp F21     &kp F1      &kp F2      &kp F3      &kp F10     &kp F24        
+    &bootloader  &sys_reset &trans      &tog WASD   &tog QWERTY &tog BASE       &kp F21     &kp F1      &kp F2      &kp F3      &kp F10     &sys_reset        
                                         &trans      &trans      &trans          &trans      &trans      &trans      
                         >;
                 };
@@ -210,21 +224,21 @@ label= "ADJ"                               ;
 label= "WASD"                             ;
 // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 //             ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓   ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓
-//             ┃    TAB    ┃     Q     ┃     W     ┃     E     ┃     R     ┃   ┃           ┃           ┃           ┃           ┃           ┃
+//             ┃    TAB    ┃     Q     ┃     W     ┃     E     ┃     R     ┃   ┃    ESC    ┃     7     ┃     8     ┃     9     ┃     0     ┃
 //             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
-//             ┃   CAPS    ┃     A     ┃     S     ┃     D     ┃     F     ┃   ┃           ┃           ┃           ┃           ┃           ┃
+//             ┃   CAPS    ┃     A     ┃     S     ┃     D     ┃     F     ┃   ┃   GRAVE   ┃     4     ┃     5     ┃     6     ┃           ┃
 // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
-// ┃   QWERTY  ┃ SHIFT     ┃     Z     ┃     X     ┃     C     ┃     V     ┃   ┃           ┃           ┃           ┃           ┃           ┃    BASE   ┃
+// ┃   QWERTY  ┃   SHIFT   ┃     Z     ┃     X     ┃     C     ┃     V     ┃   ┃           ┃     1     ┃     2     ┃     3     ┃           ┃    BASE   ┃
 // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
-//                                     ┃           ┃   SPACE   ┃  SEL/MOV  ┃   ┃           ┃   SPACE   ┃           ┃
+//                                     ┃   LCTRL   ┃   SPACE   ┃    LALT   ┃   ┃    BSPC   ┃   SPACE   ┃   ENTER   ┃
 //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
  bindings = <
 // ╷           ╷           ╷           ╷           ╷           ╷           ╷   ╷           ╷           ╷           ╷           ╷           ╷           ╷
 
-                &kp TAB     &kp Q       &kp W       &kp E       &kp R           &kp ESC     &kp N7      &kp N8      &kp N9      &none
-                &kp CAPS    &kp A       &kp S       &kp D       &kp F           &none       &kp N4      &kp N5      &kp N6      &none
+                &kp TAB     &kp Q       &kp W       &kp E       &kp R           &kp ESC     &kp N7      &kp N8      &kp N9      &kp N0
+                &kp CAPS    &kp A       &kp S       &kp D       &kp F           &kp GRAVE   &kp N4      &kp N5      &kp N6      &none
     &tog QWERTY &kp LSHFT   &kp Z       &kp X       &kp C       &kp V           &none       &kp N1      &kp N2      &kp N3      &none       &tog BASE       
-                                        &none       &kp SPACE   &none           &none       &kp SPACE   &none    
+                                        &kp LCTRL   &kp SPACE   &kp LALT        &kp BSPC    &kp SPACE   &kp ENTER    
                         >;
                 };
 
@@ -236,21 +250,21 @@ label= "WASD"                             ;
 label= "QWERTY"                             ;
 // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 //             ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓   ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓
-//             ┃ SOLO      ┃ TOGGLE IN ┃ RESET ROT ┃ TOGGLE OUT┃ TAKE SNAP ┃   ┃           ┃           ┃           ┃           ┃           ┃
+//             ┃     Q     ┃     W     ┃     E     ┃     R     ┃     T     ┃   ┃     Y     ┃     U     ┃     I     ┃     O     ┃     P     ┃
 //             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
-//             ┃ ---       ┃ LAST KEY  ┃ NEW KEY   ┃ NEXT KEY  ┃ ENTER     ┃   ┃           ┃           ┃           ┃           ┃           ┃
+//             ┃     A     ┃     S     ┃     D     ┃     F     ┃     G     ┃   ┃     H     ┃     J     ┃     K     ┃     L     ┃     ;     ┃
 // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
-// ┃           ┃ FULLSCR   ┃ CPY2BRUSH ┃ DEL HEAD  ┃ PSTinPLACE┃ BOOK MARK ┃   ┃           ┃           ┃           ┃           ┃           ┃           ┃
+// ┃     Q     ┃     Z     ┃     X     ┃     C     ┃     V     ┃     B     ┃   ┃     N     ┃     M     ┃     ,     ┃     .     ┃     /     ┃     P     ┃
 // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
-//                                     ┃           ┃ REDO/SAV1 ┃TRANS/WARP ┃   ┃           ┃           ┃           ┃
+//                                     ┃    DEL    ┃  TAB[NAV] ┃  GR/ESC   ┃   ┃   BSPC    ┃  SPC[SYM] ┃   ENTER   ┃
 //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
  bindings = <
 // ╷           ╷           ╷           ╷           ╷           ╷           ╷   ╷           ╷           ╷           ╷           ╷           ╷           ╷
 
-                &kp LC(F18) &kp LS(I)  &kp LS(HOME) &kp LS(O)   &kp LS(F)       &trans      &kp F7      &kp F8      &kp F9      &kp F12
-                &trans      &kp LS(LEFT) &kp LC(F17) &kp LS(RIGHT) &kp RET      &trans      &kp F4      &kp F5      &kp F6      &kp F11  
-    &trans      &kp J       &kp LS(C)   &kp LC(F16) &kp LS(V)   &kp LC(F15)     &trans      &kp F1      &kp F2      &kp F3      &kp F10     &trans         
-                                        &trans      &kp LC(F12) &kp LC(F11)     &trans      &trans      &trans      
+                &kp Q       &kp W       &kp E       &kp R       &kp T           &kp Y       &kp U       &kp I       &kp O       &kp P
+                &mt LALT A  &mt LCTRL S &mt LGUI D  &mt LSHFT F &kp G           &kp H       &mt RSHFT J &mt RGUI K &mt RCTRL L  &mt RALT SEMI
+    &kp Q       &kp Z       &kp X       &kp C       &kp V       &kp B           &kp N       &kp M       &kp COMMA   &kp DOT     &kp FSLH     &kp P
+                                        &kp DEL   &lt NAV TAB   &gresc          &kp BSPC  &lt SYM SPACE &kp ENTER
                         >;
                 };
         };
