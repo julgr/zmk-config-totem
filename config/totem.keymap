@@ -43,21 +43,21 @@
         combo_wasd {
             timeout-ms = <100>;
             key-positions = <23 24 22>;
-            bindings = <&tog WASD>;
+            bindings = <&to WASD>;
             require-prior-idle-ms = <500>;
         };
 
         combo_base {
             timeout-ms = <100>;
             key-positions = <33 34 32>;
-            bindings = <&tog BASE>;
+            bindings = <&to BASE>;
             require-prior-idle-ms = <500>;
         };
 
         combo_qwerty {
             timeout-ms = <100>;
             key-positions = <36 37 35>;
-            bindings = <&tog QWERTY>;
+            bindings = <&to QWERTY>;
             require-prior-idle-ms = <500>;
         };
     };
