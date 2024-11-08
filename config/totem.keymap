@@ -27,7 +27,7 @@
     global-quick-tap;
     flavor = "balanced";
     tapping-term-ms = <200>;
-    require-prior-idle-ms = <200>;
+    require-prior-idle-ms = <300>;
 };
 
 / {
@@ -99,13 +99,12 @@
             bindings = <&kp LC(RIGHT)>, <&kp LC(LA(RIGHT))>;
         };
 
-        gresc: grave_escape {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp ESC>, <&kp GRAVE>;
-
-            mods = <(MOD_LGUI|MOD_LSFT|MOD_RGUI|MOD_RSFT)>;
-        };
+       // gresc: grave_escape {
+       //     compatible = "zmk,behavior-mod-morph";
+       //     #binding-cells = <0>;
+       //     bindings = <&kp ESC>, <&kp GRAVE>;
+       //     mods = <(MOD_LGUI|MOD_LSFT|MOD_RGUI|MOD_RSFT)>;
+       // };
 
         lparlt: lparen_lt {
             compatible = "zmk,behavior-mod-morph";
