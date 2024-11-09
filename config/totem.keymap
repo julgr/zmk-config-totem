@@ -15,12 +15,12 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 
-#define BASE 0
-#define NAV  1
-#define SYM  2
-#define ADJ  3
-#define WASD 4
-#define QWERTY 5
+#define BASE   0
+#define QWERTY 1 
+#define WASD   2
+#define NAV    3
+#define SYM    4
+#define ADJ    5
 
 &mt {
     quick-tap-ms = <100>;
@@ -45,7 +45,7 @@
         combo_wasd {
             timeout-ms = <100>;
             key-positions = <23 24 22>;
-            bindings = <&to WASD>;
+            bindings = <&tog WASD>;
             require-prior-idle-ms = <500>;
             layers = <0 5>;
         };
@@ -53,7 +53,7 @@
         combo_base {
             timeout-ms = <100>;
             key-positions = <33 34 32>;
-            bindings = <&to BASE>;
+            bindings = <&tog BASE>;
             require-prior-idle-ms = <500>;
             layers = <4 5>;
         };
@@ -61,7 +61,7 @@
         combo_qwerty {
             timeout-ms = <100>;
             key-positions = <36 37 35>;
-            bindings = <&to QWERTY>;
+            bindings = <&tog QWERTY>;
             require-prior-idle-ms = <500>;
             layers = <0 4>;
         };
@@ -219,7 +219,7 @@
             bindings = <
                             &bt BT_PRV   &bt BT_NXT  &out OUT_TOG &trans    &bt BT_CLR      &kp F23     &kp F7      &kp F8      &kp F9      &kp F12
                             &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &kp F22    &kp F4      &kp F5      &kp F6      &kp F11
-                 &sys_reset &bootloader  &trans      &to WASD     &to QWERTY   &to BASE       &kp F21     &kp F1      &kp F2      &kp F3      &kp F10     &sys_reset
+                 &sys_reset &bootloader  &trans      &tog WASD    &tog QWERTY &tog BASE       &kp F21     &kp F1      &kp F2      &kp F3      &kp F10     &sys_reset
                                                      &trans       &trans      &trans          &trans      &trans     &trans
             >;
         };
@@ -245,7 +245,7 @@
             bindings = <
                                          &kp TAB    &kp Q  &kp W      &kp E      &kp R       &kp ESC    &kp N7     &kp N8     &kp N9  &kp N0
                                          &kp CAPS   &kp A  &kp S      &kp D      &kp F       &kp GRAVE  &kp N4     &kp N5     &kp N6  &none
-                            &to QWERTY 1 &kp LSHFT  &kp Z  &kp X      &kp C      &kp V       &none      &kp N1     &kp N2     &kp N3  &none   &to BASE
+                            &tog QWERTY &kp LSHFT  &kp Z  &kp X      &kp C      &kp V       &none      &kp N1     &kp N2     &kp N3  &none   &tog BASE
                                                            &kp LCTRL  &kp SPACE  &kp LALT    &kp BSPC   &kp SPACE  &kp ENTER
             >;
         };
