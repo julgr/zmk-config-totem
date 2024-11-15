@@ -103,6 +103,7 @@
             #binding-cells = <0>;
             bindings = <&lt SYM ESC>, <&kp GRAVE>;
             mods = <(MOD_LGUI|MOD_LSFT|MOD_RGUI|MOD_RSFT)>;
+            keep-mods = <(MOD_RSFT|MOD_LSFT)>;
         };
 
         lparlt: lparen_lt {
@@ -249,7 +250,7 @@
 
             bindings = <
                             &kp EXCL     &kp HASH    &kp DLLR   &kp PRCNT   &kp LBRC        &kp RBRC    &kp CARET   &kp FSLH    &kp ASTRK   &kp PIPE
-                            &kp AT       &kp EXCL    &kp GRAVE  &mt LSHFT SQT &lparlt       &rpargt     &mt RSHFT SEMI &kp MINUS &kp EQUAL  &kp FSLH
+                            &kp AMPS     &kp EXCL    &kp GRAVE  &mt LSHFT SQT &lparlt       &rpargt     &mt RSHFT SEMI &kp MINUS &kp EQUAL  &kp FSLH
                 &kp LT      &kp PIPE     &kp QMARK   &kp TILDE  &kp DQT     &kp LBKT        &kp RBKT    &kp COLON   &kp UNDER   &kp PLUS    &kp BSLH    &kp GT
                                                      &trans     &trans      &trans          &trans      &trans      &trans
             >;
