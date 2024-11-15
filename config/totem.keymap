@@ -103,7 +103,7 @@
             #binding-cells = <0>;
             bindings = <&lt SYM ESC>, <&kp GRAVE>;
             mods = <(MOD_LGUI|MOD_LSFT|MOD_RGUI|MOD_RSFT)>;
-            keep-mods = <(MOD_RSFT|MOD_LSFT)>;
+            keep-mods = <(MOD_LGUI|MOD_LSFT|MOD_RGUI|MOD_RSFT)>;
         };
 
         lparlt: lparen_lt {
