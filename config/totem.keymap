@@ -150,7 +150,7 @@
             //             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
             //             ┃    A[A]   ┃    R[C]   ┃    S[G]   ┃    T[S]   ┃     D     ┃   ┃     H     ┃    N[S]   ┃    E[G]   ┃    I[C]   ┃    O[A]   ┃
             // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
-            // ┃     Q     ┃     Z     ┃     X     ┃     C     ┃     V     ┃     B     ┃   ┃     K     ┃     M     ┃     ,     ┃     .     ┃     /     ┃     ;     ┃
+            // ┃     (     ┃     Z     ┃     X     ┃     C     ┃     V     ┃     B     ┃   ┃     K     ┃     M     ┃     ,     ┃     .     ┃     /     ┃     )     ┃
             // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
             //                                     ┃  DEL[ADJ] ┃ BSPC[NAV] ┃GR/ESC[SYM]┃   ┃ ENTER[SYM]┃  SPC[NAV] ┃  TAB[ADJ] ┃
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
@@ -158,7 +158,7 @@
             bindings = <
                             &kp Q       &kp W        &kp F      &kp P        &kp G          &kp J       &kp L         &kp U       &kp Y       &kp SEMI
                             &mt LALT A  &mt LCTRL R  &mt LGUI S &mt LSHFT T  &kp D          &kp H       &mt RSHFT N   &mt RGUI E  &mt RCTRL I &mt RALT O
-                &kp Q       &kp Z       &kp X        &kp C      &kp V        &kp B          &kp K       &kp M         &kp COMMA   &kp DOT     &kp FSLH   &kp SEMI
+                &kp LPAR    &kp Z       &kp X        &kp C      &kp V        &kp B          &kp K       &kp M         &kp COMMA   &kp DOT     &kp FSLH   &kp RPAR
                                                      &lt ADJ DEL &lt NAV BSPC &symgresc     &lt SYM ENTER &lt NAV SPACE &lt ADJ TAB
             >;
         };
@@ -234,7 +234,7 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                            &kp CAPS    &kp HOME    &kp UP      &kp PG_UP   &kp MSNCTL      &kp FSLH    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp KP_MINUS
+                            &kp CAPS    &kp HOME    &kp UP      &kp PG_UP   &kp RC(UP)      &kp FSLH    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp KP_MINUS
                             &caps_word  &kp LEFT    &kp DOWN    &kp RIGHT   &kp C_AC_BACK   &kp ASTRK   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp KP_PLUS
                 &td0        &kp GLOBE   &kp END     &kp INS     &kp PG_DN  &kp C_AC_FWD     &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp EQUAL   &td1
                                                     &trans      &trans      &trans          &trans      &trans      &trans
@@ -250,20 +250,20 @@
 
             // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
             //             ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓   ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓
-            //             ┃     &     ┃     #     ┃     $     ┃     <     ┃     {     ┃   ┃     }     ┃     >     ┃     %     ┃     ^     ┃     :     ┃
+            //             ┃     &     ┃     #     ┃     $     ┃     %     ┃     <     ┃   ┃     >     ┃     ^     ┃     &     ┃     *     ┃     :     ┃
             //             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
-            //             ┃     @     ┃     !     ┃     `     ┃     '     ┃    (/<    ┃   ┃    )/>    ┃     '     ┃     -     ┃     +     ┃     *     ┃
+            //             ┃     @     ┃     !     ┃     '     ┃     (     ┃     [     ┃   ┃     ]     ┃     )     ┃     -     ┃     +     ┃     /     ┃
             // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
-            // ┃     &     ┃     |     ┃     ?     ┃     ~     ┃     "     ┃     [     ┃   ┃     ]     ┃     "     ┃     _     ┃     =     ┃     \     ┃     :     ┃
+            // ┃     &     ┃     |     ┃     ?     ┃     "     ┃     `     ┃     {     ┃   ┃     }     ┃     ~     ┃     _     ┃     =     ┃     \     ┃     :     ┃
             // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
-            //                                     ┃           ┃           ┃           ┃   ┃           ┃           ┃           ┃
+            //                                     ┃           ┃     _     ┃           ┃   ┃           ┃     _     ┃           ┃
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                            &kp AMPS     &kp HASH    &kp DLLR   &kp LT      &kp LBRC        &kp RBRC    &kp GT      &kp PRCNT   &kp CARET   &kp COLON 
-                            &kp AT       &kp EXCL    &kp GRAVE  &kp SQT     &kp LPAR        &kp RPAR    &kp SQT     &kp MINUS   &kp PLUS    &kp ASTRK
-                &kp AMPS    &kp PIPE     &kp QMARK   &kp TILDE  &kp DQT     &kp LBKT        &kp RBKT    &kp DQT     &kp UNDER   &kp EQUAL   &kp BSLH    &kp COLON
-                                                     &trans     &trans      &trans          &trans      &trans      &trans
+                            &kp AMPS     &kp HASH    &kp DLLR   &kp PRCNT   &kp LT          &kp GT      &kp CARET   &kp AMPS    &kp ASTRK   &kp COLON 
+                            &kp AT       &kp EXCL    &kp SQT    &kp LPAR    &kp LBKT        &kp RBKT    &kp RPAR    &kp MINUS   &kp PLUS    &kp FSLH 
+                &kp AMPS    &kp PIPE     &kp QMARK   &kp DQT    &kp GRAVE   &kp LBRC        &kp RBRC    &kp TILDE   &kp UNDER   &kp EQUAL   &kp BSLH    &kp COLON
+                                                     &trans     &kp UNDER   &trans          &trans      &kp UNDER   &trans
             >;
         };
 
@@ -280,7 +280,7 @@
             //             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
             //             ┃  BT SEL 0 ┃  BT SEL 1 ┃  BT SEL 2 ┃  BT SEL 3 ┃    VOL-   ┃   ┃     F2    ┃    F5     ┃    F8     ┃    F11    ┃    F14    ┃
             // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
-            // ┃   KB OFF  ┃   RESET   ┃    PREV   ┃    PLAY   ┃    NEXT   ┃    MUTE   ┃   ┃     F3    ┃    F6     ┃    F9     ┃    F12    ┃    F15    ┃  BOOTLOAD ┃
+            // ┃    PWR    ┃   KB OFF  ┃    PREV   ┃    PLAY   ┃    NEXT   ┃    MUTE   ┃   ┃     F3    ┃    F6     ┃    F9     ┃    F12    ┃    F15    ┃    F24    ┃
             // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
             //                                     ┃           ┃   \MEH/   ┃  \HYPER/  ┃   ┃  \HYPER/  ┃   \MEH/   ┃           ┃
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
@@ -288,9 +288,8 @@
             bindings = <
                             &out OUT_TOG &bt BT_CLR  &bt BT_PRV   &bt BT_NXT  &kp C_VOL_UP    &kp F1     &kp F4      &kp F7      &kp F10     &kp F13
                             &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &kp C_VOL_DN  &kp F2     &kp F5      &kp F8      &kp F11     &kp F14
-                 &soft_off  &sys_reset   &kp C_PREV  &kp C_PP     &kp C_NEXT  &kp C_MUTE      &kp F3     &kp F6      &kp F9      &kp F12     &kp F15     &bootloader
-                                              // &trans &sk LS(LC(LALT)) &sk LS(LC(LA(LGUI)))    &sk RS(RC(RA(RGUI))) &sk RS(RC(RALT)) &trans
-                                              &trans &trans &trans &trans &trans &trans
+                 &kp C_PWR  &soft_off   &kp C_PREV  &kp C_PP     &kp C_NEXT  &kp C_MUTE      &kp F3     &kp F6      &kp F9      &kp F12     &kp F15     &kp F24
+                                              &trans &sk LS(LC(LALT)) &sk LS(LC(LA(LGUI)))    &sk RS(RC(RA(RGUI))) &sk RS(RC(RALT)) &trans
             >;
         };
     };
