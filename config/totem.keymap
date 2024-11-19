@@ -22,6 +22,9 @@
 #define SYM    4
 #define ADJ    5
 
+#define MSNCTL C_AC_DESKTOP_SHOW_ALL_WINDOWS
+#define C_AC_FWD C_AC_FORWARD
+
 &mt {
     quick-tap-ms = <200>;
     global-quick-tap;
