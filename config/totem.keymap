@@ -48,7 +48,7 @@
 
         combo_caps_word {
             timeout-ms = <100>;
-            key-positions = <10 19>;
+            key-positions = <34 35>;
             bindings = <&caps_word>;
             require-prior-idle-ms = <500>;
             layers = <0 1 2>;
@@ -67,7 +67,7 @@
             key-positions = <23 24 22>;
             bindings = <&tog WASD>;
             require-prior-idle-ms = <500>;
-            layers = <0 5>;
+            layers = <0 1>;
         };
 
         combo_base {
@@ -75,7 +75,7 @@
             key-positions = <33 34 32>;
             bindings = <&tog BASE>;
             require-prior-idle-ms = <500>;
-            layers = <4 5>;
+            layers = <2 3>;
         };
 
         combo_qwerty {
@@ -100,13 +100,6 @@
         };
 
         td1: tap_dance_1 {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&kp LC(RIGHT)>, <&kp LC(LA(RIGHT))>;
-        };
-
-        td2: tap_dance_2 {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
@@ -238,7 +231,7 @@
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
-                            &kp CAPS      &kp HOME  &kp UP      &kp PG_UP   &none       &kp FSLH    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp KP_MINUS
+                            &kp CAPS      &kp HOME  &kp UP      &kp PG_UP   &caps_word      &kp FSLH    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp KP_MINUS
                             &kp C_AC_BACK &kp LEFT  &kp DOWN    &kp RIGHT   &kp C_AC_BACK   &kp ASTRK   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp KP_PLUS
                 &td0        &kp C_AC_FORWARD &kp END &kp INS    &kp PG_DN   &kp C_AC_FWD    &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp EQUAL   &td1
                                                     &trans      &trans      &trans          &trans      &trans      &trans
