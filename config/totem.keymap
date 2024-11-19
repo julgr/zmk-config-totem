@@ -233,9 +233,7 @@
             bindings = <
                             &kp CAPS      &kp HOME  &kp UP      &kp PG_UP   &caps_word      &kp FSLH    &kp KP_N7   &kp KP_N8   &kp KP_N9   &kp KP_MINUS
                             &kp C_AC_BACK &kp LEFT  &kp DOWN    &kp RIGHT   &kp C_AC_BACK   &kp ASTRK   &kp KP_N4   &kp KP_N5   &kp KP_N6   &kp KP_PLUS
-                //&td0        &kp C_AC_FORWARD &kp END &kp INS    &kp PG_DN   &kp C_AC_FWD    &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp EQUAL   &td1
-                &trans  &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans 
-
+                &td0        &kp C_AC_FORWARD &kp END &kp INS    &kp PG_DN   &kp C_AC_FWD    &kp KP_N0   &kp KP_N1   &kp KP_N2   &kp KP_N3   &kp EQUAL   &trans //&td1
                                                     &trans      &trans      &trans          &trans      &trans      &trans
             >;
         };
