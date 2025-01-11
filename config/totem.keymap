@@ -22,11 +22,15 @@
 #define SYM    4
 #define ADJ    5
 
+#define XXX &none
+#define ___ &trans
+
 #define MSNCTL C_AC_DESKTOP_SHOW_ALL_WINDOWS
 #define C_AC_FWD C_AC_FORWARD
 
 #define QUICK_TAP_MS 175
 
+/*
 &mt {
     quick-tap-ms = <QUICK_TAP_MS>;
     global-quick-tap;
@@ -34,6 +38,16 @@
     tapping-term-ms = <300>;
     require-prior-idle-ms = <200>;
 };
+*/
+
+/* Homerow Mods */
+
+#define MAKE_HRM(NAME, HOLD, TAP)                                              \
+  ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced";            \
+               tapping-term-ms = <280>; quick-tap-ms = <QUICK_TAP_MS>;         \
+               require-prior-idle-ms = <150>; hold-trigger-on-release;)
+
+MAKE_HRM(hm, &kp, &kp)
 
 &lt {
     quick-tap-ms = <QUICK_TAP_MS>;
@@ -42,6 +56,8 @@
     tapping-term-ms = <200>;
     require-prior-idle-ms = <200>;
 };
+
+
 
 &soft_off {
    hold-time-ms = <1000>;
@@ -154,14 +170,14 @@
             // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
             // ┃     (     ┃     Z     ┃     X     ┃     C     ┃     V     ┃     B     ┃   ┃     K     ┃     M     ┃     ,     ┃     .     ┃     /     ┃     )     ┃
             // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
-            //                                     ┃  DEL[ADJ] ┃ BSPC[NAV] ┃GR/ESC[SYM]┃   ┃ ENTER[SYM]┃  SPC[NAV] ┃  TAB[ADJ] ┃
+            //                                     ┃  DEL[ADJ] ┃ ENTER[NAV]┃GR/ESC[SYM]┃   ┃ BSPC[SYM] ┃  SPC[NAV] ┃  TAB[ADJ] ┃
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
                             &kp Q       &kp W        &kp F      &kp P        &kp G          &kp J       &kp L         &kp U       &kp Y       &kp SEMI
-                            &mt LALT A  &mt LCTRL R  &mt LGUI S &mt LSHFT T  &kp D          &kp H       &mt RSHFT N   &mt RGUI E  &mt RCTRL I &mt RALT O
+                            &hm LALT A  &hm LCTRL R  &hm LGUI S &hm LSHFT T  &kp D          &kp H       &hm RSHFT N   &hm RGUI E  &hm RCTRL I &hm RALT O
                 &kp LPAR    &kp Z       &kp X        &kp C      &kp V        &kp B          &kp K       &kp M         &kp COMMA   &kp DOT     &kp FSLH   &kp RPAR
-                                                     &lt ADJ DEL &lt NAV BSPC &symgresc     &lt SYM ENTER &lt NAV SPACE &lt ADJ TAB
+                                                     &lt ADJ DEL &lt NAV ENTER &symgresc    &lt SYM BSPC &lt NAV SPACE &lt ADJ TAB
             >;
         };
 
@@ -180,14 +196,14 @@
             // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
             // ┃     Q     ┃     Z     ┃     X     ┃     C     ┃     V     ┃     B     ┃   ┃     N     ┃     M     ┃     ,     ┃     .     ┃     /     ┃     P     ┃
             // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
-            //                                     ┃  DEL[ADJ] ┃  TAB[NAV] ┃GR/ESC[SYM]┃   ┃ BSPC[SYM] ┃  SPC[NAV] ┃ ENTER[ADJ]┃
+            //                                     ┃  DEL[ADJ] ┃ ENTER[NAV]┃GR/ESC[SYM]┃   ┃ BSPC[SYM] ┃  SPC[NAV] ┃  TAB[ADJ] ┃
             //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 
             bindings = <
                                 &kp Q       &kp W        &kp E      &kp R        &kp T      &kp Y       &kp U          &kp I       &kp O        &kp P
-                                &mt LALT A  &mt LCTRL S  &mt LGUI D &mt LSHFT F  &kp G      &kp H       &mt RSHFT J    &mt RGUI K  &mt RCTRL L  &mt RALT SEMI
+                                &hm LALT A  &hm LCTRL S  &hm LGUI D &hm LSHFT F  &kp G      &kp H       &hm RSHFT J    &hm RGUI K  &hm RCTRL L  &hm RALT SEMI
                          &kp Q  &kp Z       &kp X        &kp C      &kp V        &kp B      &kp N       &kp M          &kp COMMA   &kp DOT      &kp FSLH       &kp P
-                                                         &lt ADJ DEL &lt NAV BSPC &symgresc &lt SYM ENTER &lt NAV SPACE &lt ADJ TAB
+                                                         &lt ADJ DEL &lt NAV ENTER &symgresc &lt SYM BSPC &lt NAV SPACE &lt ADJ TAB
             >;
         };
         
@@ -264,6 +280,7 @@
             bindings = <
                             &kp AMPS     &kp HASH    &kp DLLR   &kp PRCNT   &kp LT          &kp GT      &kp CARET   &kp AMPS    &kp ASTRK   &kp COLON 
                             &kp AT       &kp EXCL    &kp SQT    &kp LPAR    &kp LBKT        &kp RBKT    &kp RPAR    &kp MINUS   &kp PLUS    &kp FSLH 
+                           &hm LALT AT &hm LCTRL EXCL &hm LGUI SQT &hm LSHFT LPAR &kp G    &kp H &hm RSHFT RPAR &hm RGUI MINUS &hm RCTRL PLUS &hm RALT FSLH
                 &kp AMPS    &kp PIPE     &kp QMARK   &kp DQT    &kp GRAVE   &kp LBRC        &kp RBRC    &kp TILDE   &kp UNDER   &kp EQUAL   &kp BSLH    &kp COLON
                                                      &trans     &kp UNDER   &trans          &trans      &kp UNDER   &trans
             >;
