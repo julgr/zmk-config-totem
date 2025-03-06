@@ -2,7 +2,7 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-  - name: caksoylar  # for rgbled battery and connectivity status
+    - name: caksoylar  # for rgbled battery and connectivity status
       url-base: https://github.com/caksoylar
   projects:
     - name: zmk
