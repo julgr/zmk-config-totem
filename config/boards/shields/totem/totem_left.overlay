@@ -15,3 +15,15 @@
         , <&xiao_d 8 GPIO_ACTIVE_HIGH>
         ;
 };
+
+chosen {
+  zephyr,post-kernel-init = &charge_ctrl;
+};
+
+charge_ctrl: charge-control {
+  compatible = "gpio-leds";
+  charge_led: control {
+    gpios = <&gpio0 22 GPIO_OUTPUT_INACTIVE>;
+    label = "charge-current-control";
+  };
+};
