@@ -16,14 +16,13 @@
         ;
 };
 
-chosen {
-  zephyr,post-kernel-init = &charge_ctrl;
-};
+/ {
+    leds {
+        compatible = "gpio-leds";
 
-charge_ctrl: charge-control {
-  compatible = "gpio-leds";
-  charge_led: control {
-    gpios = <&gpio0 22 GPIO_OUTPUT_INACTIVE>;
-    label = "charge-current-control";
-  };
+        charge_current: charge_current {
+            gpios = <&gpio0 22 GPIO_ACTIVE_LOW>;
+            label = "Charge Current Control";
+        };
+    };
 };
