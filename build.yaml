@@ -1,7 +1,7 @@
 include:
   - board: xiao_ble//zmk
     shield: totem_left rgbled_adapter
-    snippet: zmk-studio-rpc-usb-uart
+    snippet: studio-rpc-usb-uart
   - board: xiao_ble//zmk
     shield: totem_right rgbled_adapter
   - board: xiao_ble//zmk
