@@ -1,0 +1,7 @@
+name: zmk-rgbled-widget
+build:
+  cmake: modules/rgbled-widget
+  kconfig: modules/rgbled-widget/Kconfig
+  settings:
+    board_root: modules/rgbled-widget
+    dts_root: modules/rgbled-widget

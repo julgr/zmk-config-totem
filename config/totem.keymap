@@ -66,7 +66,7 @@
         combo_wasd {
             timeout-ms = <100>;
             key-positions = <23 24 22>;
-            bindings = <&tog WASD>;
+            bindings = <&to WASD>;
             require-prior-idle-ms = <500>;
             layers = <0 1>;
         };
@@ -74,17 +74,17 @@
         combo_base {
             timeout-ms = <100>;
             key-positions = <33 34 32>;
-            bindings = <&tog BASE>;
+            bindings = <&to BASE>;
             require-prior-idle-ms = <500>;
-            layers = <2 3>;
+            layers = <0 1 2 3>;
         };
 
         combo_qwerty {
             timeout-ms = <100>;
             key-positions = <36 37 35>;
-            bindings = <&tog QWERTY>;
+            bindings = <&to QWERTY>;
             require-prior-idle-ms = <500>;
-            layers = <0 4>;
+            layers = <0 1 2 4>;
         };
     };
 
@@ -205,7 +205,7 @@
             bindings = <
              &kp TAB    &kp Q  &kp W      &kp E      &kp R       &kp ESC    &kp N7     &kp N8     &kp N9  &none
              &kp CAPS   &kp A  &kp S      &kp D      &kp F       &kp GRAVE  &kp N4     &kp N5     &kp N6  &none
-&tog QWERTY  &kp LSHFT  &kp Z  &kp X      &kp C      &kp V       &kp N0     &kp N1     &kp N2     &kp N3  &none  &tog BASE
+&to QWERTY   &kp LSHFT  &kp Z  &kp X      &kp C      &kp V       &kp N0     &kp N1     &kp N2     &kp N3  &none  &to BASE
                                &kp LCTRL  &kp SPACE  &kp LALT    &kp BSPC   &kp SPACE  &kp ENTER
             >;
         };
