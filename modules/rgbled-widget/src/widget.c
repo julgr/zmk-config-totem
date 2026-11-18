@@ -3,6 +3,7 @@
 #include <zephyr/drivers/led.h>
 #include <zephyr/init.h>
 #include <zephyr/kernel.h>
+#include <zephyr/sys/atomic.h>
 
 #include <zmk/battery.h>
 #include <zmk/ble.h>
@@ -84,19 +85,23 @@ struct blink_item {
     uint8_t color;
     uint32_t duration_ms;
     uint32_t sleep_ms;
+    bool refresh;
 };
 
 // flag to indicate whether the initial boot up sequence is complete
-static bool initialized = false;
+static atomic_t initialized;
 
-// track current color for persistent indicators (layer color)
-uint8_t led_current_color = 0;
+// Serialize GPIO writes with sleep shutdown, but never hold the lock while blinking.
+static K_MUTEX_DEFINE(led_lock);
+static atomic_t led_sleeping;
+static atomic_t led_current_color;
 
-// low-level method to control the LED
-static void set_rgb_leds(uint8_t color, uint32_t duration_ms) {
+// Caller holds led_lock; update the cached color before any thread can sleep.
+static void set_rgb_leds_locked(uint8_t color) {
+    uint8_t previous_color = atomic_get(&led_current_color);
     for (uint8_t pos = 0; pos < 3; pos++) {
         uint8_t bit = BIT(pos);
-        if ((bit & led_current_color) != (bit & color)) {
+        if ((bit & previous_color) != (bit & color)) {
             // bits are different, so we need to change one
             if (bit & color) {
                 led_on(led_dev, rgb_idx[pos]);
@@ -105,15 +110,49 @@ static void set_rgb_leds(uint8_t color, uint32_t duration_ms) {
             }
         }
     }
+    atomic_set(&led_current_color, color);
+}
+
+static void set_rgb_leds(uint8_t color, uint32_t duration_ms) {
+    k_mutex_lock(&led_lock, K_FOREVER);
+    if (!atomic_get(&led_sleeping)) {
+        set_rgb_leds_locked(color);
+    }
+    k_mutex_unlock(&led_lock);
     if (duration_ms > 0) {
         k_sleep(K_MSEC(duration_ms));
     }
-    led_current_color = color;
 }
 
 // define message queue of blink work items, that will be processed by a
 // separate thread
 K_MSGQ_DEFINE(led_msgq, sizeof(struct blink_item), 16, 1);
+
+// Wake the worker to re-evaluate battery/activity state without changing the LED.
+static void refresh_led_state(void) {
+    struct blink_item refresh = {.refresh = true};
+    k_msgq_put(&led_msgq, &refresh, K_NO_WAIT);
+}
+
+static int led_activity_listener_cb(const zmk_event_t *eh) {
+    const struct zmk_activity_state_changed *ev = as_zmk_activity_state_changed(eh);
+    if (ev->state == ZMK_ACTIVITY_SLEEP) {
+        k_mutex_lock(&led_lock, K_FOREVER);
+        atomic_set(&led_sleeping, true);
+        set_rgb_leds_locked(0);
+        k_msgq_purge(&led_msgq);
+        k_mutex_unlock(&led_lock);
+    } else if (ev->state == ZMK_ACTIVITY_ACTIVE) {
+        k_mutex_lock(&led_lock, K_FOREVER);
+        atomic_clear(&led_sleeping);
+        k_mutex_unlock(&led_lock);
+        refresh_led_state();
+    }
+    return 0;
+}
+
+ZMK_LISTENER(led_activity_listener, led_activity_listener_cb);
+ZMK_SUBSCRIPTION(led_activity_listener, zmk_activity_state_changed);
 
 #if IS_ENABLED(CONFIG_RGBLED_WIDGET_SHOW_PROFILE_COLORS)
 static const uint8_t profile_colors[] = {
@@ -181,7 +220,7 @@ static void indicate_connectivity_internal(void) {
 }
 
 static int led_output_listener_cb(const zmk_event_t *eh) {
-    if (initialized) {
+    if (atomic_get(&initialized)) {
         indicate_connectivity();
     }
     return 0;
@@ -266,20 +305,15 @@ void indicate_battery(void) {
 #endif
 }
 
+static bool battery_is_critical(void) {
+    uint8_t battery_level = zmk_battery_state_of_charge();
+    return battery_level > 0 && battery_level <= CONFIG_RGBLED_WIDGET_BATTERY_LEVEL_CRITICAL;
+}
+
 static int led_battery_listener_cb(const zmk_event_t *eh) {
-    if (!initialized) {
-        return 0;
-    }
-
-    // check if we are in critical battery levels at state change, blink if we are
-    uint8_t battery_level = as_zmk_battery_state_changed(eh)->state_of_charge;
-
-    if (battery_level > 0 && battery_level <= CONFIG_RGBLED_WIDGET_BATTERY_LEVEL_CRITICAL) {
-        LOG_BATTERY(battery_level, CRITICAL);
-
-        struct blink_item blink = {.duration_ms = CONFIG_RGBLED_WIDGET_BATTERY_BLINK_MS,
-                                   .color = CONFIG_RGBLED_WIDGET_BATTERY_COLOR_CRITICAL};
-        k_msgq_put(&led_msgq, &blink, K_NO_WAIT);
+    ARG_UNUSED(eh);
+    if (atomic_get(&initialized)) {
+        refresh_led_state();
     }
     return 0;
 }
@@ -303,32 +337,16 @@ void update_layer_color(void) {
 }
 
 static int led_layer_color_listener_cb(const zmk_event_t *eh) {
-    struct zmk_activity_state_changed *ev = as_zmk_activity_state_changed(eh);
-
-    // check if this is indeed an activity state changed event
-    if (ev != NULL) {
-        switch (ev->state) {
-        case ZMK_ACTIVITY_SLEEP:
-            LOG_INF("Detected sleep activity state, turn off LED");
-            set_rgb_leds(0, 0);
-            break;
-        default: // not handling IDLE and ACTIVE yet
-            break;
-        }
-        return 0;
-    }
-
-    // it must be a layer change event instead
-    if (initialized) {
+    ARG_UNUSED(eh);
+    if (atomic_get(&initialized)) {
         update_layer_color();
     }
     return 0;
 }
 
-// run layer_color_listener_cb on layer status change event and activity state event
+// Activity shutdown is handled independently of optional layer colors.
 ZMK_LISTENER(led_layer_color_listener, led_layer_color_listener_cb);
 ZMK_SUBSCRIPTION(led_layer_color_listener, zmk_layer_state_changed);
-ZMK_SUBSCRIPTION(led_layer_color_listener, zmk_activity_state_changed);
 #endif // SHOW_LAYER_COLORS
 
 #if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
@@ -357,7 +375,7 @@ static struct k_work_delayable layer_indicate_work;
 
 static int led_layer_listener_cb(const zmk_event_t *eh) {
     // ignore if not initialized yet or layer off events
-    if (initialized && as_zmk_layer_state_changed(eh)->state) {
+    if (atomic_get(&initialized) && as_zmk_layer_state_changed(eh)->state) {
         k_work_reschedule(&layer_indicate_work, K_MSEC(CONFIG_RGBLED_WIDGET_LAYER_DEBOUNCE_MS));
     }
     return 0;
@@ -381,15 +399,30 @@ extern void led_process_thread(void *d0, void *d1, void *d2) {
 #endif
 
     while (true) {
-        // wait until a blink item is received and process it
+        bool critical = false;
+#if IS_ENABLED(CONFIG_ZMK_BATTERY_REPORTING)
+        critical = atomic_get(&initialized) && !atomic_get(&led_sleeping) &&
+                   battery_is_critical();
+#endif
         struct blink_item blink;
-        k_msgq_get(&led_msgq, &blink, K_FOREVER);
+        int ret = k_msgq_get(&led_msgq, &blink, critical ? K_NO_WAIT : K_FOREVER);
+#if IS_ENABLED(CONFIG_ZMK_BATTERY_REPORTING)
+        if (ret != 0 && critical) {
+            // Keep normal indications ordered; warn repeatedly whenever their queue is empty.
+            set_rgb_leds(CONFIG_RGBLED_WIDGET_BATTERY_COLOR_CRITICAL, 1000);
+            set_rgb_leds(0, 1000);
+            continue;
+        }
+#endif
+        if (ret != 0 || blink.refresh || atomic_get(&led_sleeping)) {
+            continue;
+        }
         if (blink.duration_ms > 0) {
             LOG_DBG("Got a blink item from msgq, color %d, duration %d", blink.color,
                     blink.duration_ms);
 
             // Blink the leds, using a separation blink if necessary
-            if (blink.color == led_current_color && blink.color > 0) {
+            if (blink.color == atomic_get(&led_current_color) && blink.color > 0) {
                 set_rgb_leds(0, CONFIG_RGBLED_WIDGET_INTERVAL_MS);
             }
             set_rgb_leds(blink.color, blink.duration_ms);
@@ -429,14 +462,15 @@ extern void led_init_thread(void *d0, void *d1, void *d2) {
 
     // check and indicate current profile or peripheral connectivity status
     LOG_INF("Indicating initial connectivity status");
-    indicate_connectivity();
+    indicate_connectivity_internal();
 
 #if SHOW_LAYER_COLORS
     LOG_INF("Setting initial layer color");
     update_layer_color();
 #endif // SHOW_LAYER_COLORS
 
-    initialized = true;
+    atomic_set(&initialized, true);
+    refresh_led_state();
     LOG_INF("Finished initializing LED widget");
 }
 

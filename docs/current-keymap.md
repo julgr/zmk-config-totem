@@ -139,7 +139,7 @@ WASD also has single-key exits: left outer pinky selects QWERTY; right outer pin
 
 ## Bluetooth profile LED colors
 
-The left half blinks the selected profile's color for one second, pauses for 500 ms, then shows the existing connection-status blink. This happens on boot (after battery status), profile/connection changes, and on-demand connection indication. The LED then turns off; it is not an always-on indicator.
+The left half blinks the selected profile's color for one second, pauses for 500 ms, then shows the connection-status blink for one second. This happens on boot (after battery status), profile/connection changes, and on-demand connection indication. The LED then turns off, except for the repeating critical-battery warning described below.
 
 | Zero-based Bluetooth profile | Profile color | Existing selection |
 |---|---|---|
@@ -149,9 +149,29 @@ The left half blinks the selected profile's color for one second, pauses for 500
 | 3 | Magenta | ADJ left home-row fourth key |
 | 4 | Cyan | Previous/next profile keys |
 
-The second blink retains the widget's status colors: blue = connected, yellow = advertising, red = disconnected. Battery indications and the right half's split-connection indications are unchanged. The right half does not know the selected host profile.
+The second blink retains the widget's status colors: blue = connected, yellow = an open profile advertising for pairing, red = disconnected. These colors intentionally overlap the profile colors; their position in the sequence distinguishes their meaning. The right half shows its split-connection status, not the selected host profile.
 
 The enabled option is `CONFIG_RGBLED_WIDGET_SHOW_PROFILE_COLORS=y` in the left shield's `.conf`. Color defaults and blink duration live in `modules/rgbled-widget/Kconfig`; color IDs are red=1, green=2, yellow=3, blue=4, magenta=5, cyan=6, white=7.
+
+### Battery indications and sleep
+
+Each half shows its own battery level for two seconds at startup and when battery indication is requested:
+
+| Reported charge | Color / behavior |
+|---|---|
+| 50–100% | Green |
+| 20–49% | Yellow |
+| 6–19% | Red |
+| 1–5% | Red; after startup indications, repeat one second on / one second off while awake |
+| 0 / unknown | Magenta; a zero reading is treated as unavailable, not as a critical reading |
+
+The critical warning repeats without requiring additional battery events. Normal requested/profile/connectivity indications take precedence over warning cycles. The next warning cycle stops once the reported charge exceeds 5% or becomes unknown.
+
+At startup—including wake from deep sleep—the left half shows **battery → profile → connection status**. The right half shows **battery → split-connection status**. Waking from ordinary idle does not reboot or repeat the startup sequence.
+
+Entering sleep immediately turns all LED channels off, even during an in-progress blink. Queued and late-arriving indications cannot turn them back on while asleep. This applies independently of layer-color settings and suppresses critical warnings during sleep.
+
+Host regression checks: `python3 tests/test_rgbled_widget.py` (requires Python 3 and a C compiler). These compile and execute the widget with simulated GPIO/events for both halves and optional layer colors; they do not replace a firmware build or physical sleep/wake verification.
 
 ## Flashing without losing Studio changes
 
@@ -160,7 +180,7 @@ The enabled option is `CONFIG_RGBLED_WIDGET_SHOW_PROFILE_COLORS=y` in the left s
 - If Studio has saved the old WASD outer-pinky mappings, update only those two positions in Studio: WASD position 20 → To Layer 1 (QWERTY), position 31 → To Layer 0 (BASE). The firmware combos already provide exits independently.
 - These changes do not reorder layers or keys, rename custom behaviors, change Bluetooth profile selection bindings, or change the Studio locking setting.
 
-The RGB widget is vendored from [caksoylar/zmk-rgbled-widget](https://github.com/caksoylar/zmk-rgbled-widget) at commit `e6b467792a1dabef8cfa5c9fd26bfefc9c16662b`, with its MIT license. The local extension adds profile colors to the existing LED queue, avoiding competing LED writers or a dependency on an unpublished remote fork. The root `zephyr/module.yml` makes the existing ZMK build workflow load this local module.
+The RGB widget is vendored from [caksoylar/zmk-rgbled-widget](https://github.com/caksoylar/zmk-rgbled-widget) at commit `e6b467792a1dabef8cfa5c9fd26bfefc9c16662b`, with its MIT license. Local changes add profile colors through the existing LED queue, unconditional serialized sleep shutdown, and repeated critical-battery warnings through the same LED worker. No separate LED-writing timer or unpublished remote fork is required. The root `zephyr/module.yml` makes the existing ZMK build workflow load this local module.
 
 ## Tap/hold timing
 
